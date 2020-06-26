@@ -1,14 +1,15 @@
 ## Grocery Store
 
+The goal of this project is to have a a group of rest endpoints that allow's a user to 
+* authenticate to google
+* add food with price and row
+* add shopper with address , CC and purchase history (food, date)
+* MongoDB will be the data store
+* Redis will be used to store the latest prices, loaded from MongoDB
+
 ## Setup
 
 ## Requirements
-
-* oauth
-    * google
-* store latest items in REDIS
-* MongoDB has a copy of the items
-* hold metadata
 
 
 
