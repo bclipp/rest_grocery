@@ -9,6 +9,26 @@ The goal of this project is to have a a group of rest endpoints that allow's a u
 
 ## Setup
 
+## URIs
+
+* items
+    * GET
+    * POST
+    * PUT
+    * DELETE
+    
+* customers
+    * GET
+    * POST
+    * PUT
+    * DELETE
+    
+*  purchases
+    * GET
+    * POST
+    * PUT
+    * DELETE
+
 ## Requirements
 
 
