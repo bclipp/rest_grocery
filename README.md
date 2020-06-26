@@ -28,7 +28,13 @@ The goal of this project is to have a a group of rest endpoints that allow's a u
     * POST
     * PUT
     * DELETE
-
+    
+* stores
+    * GET
+    * POST
+    * PUT
+    * DELETE
+    
 ## Requirements
 
 
