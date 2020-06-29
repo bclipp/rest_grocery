@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_restful import Api
+
+import utils.db as db
 from resources.managers import Manager, ManagerList
 # from resources.items import items
 # from resources.customers import customers
@@ -9,6 +11,9 @@ from resources.managers import Manager, ManagerList
 
 def main():
     app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['PROPAGATE_EXCEPTIONS'] = True
     api = Api(app)
     # by id or list them all
     # for all
@@ -18,6 +23,7 @@ def main():
     # api.add_resource(customers, "/customers/<string:name>")
     # api.add_resource(purchases, "/purchases/<string:name>")
     # api.add_resource(stores, "/stores/<string:name>")
+    db.init_app(app)
     app.run(host='0.0.0.0', debug=True)
 
 
