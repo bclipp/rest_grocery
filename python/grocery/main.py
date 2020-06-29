@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 
-import utils.db as db
+import utils.db as utils_db
 from resources.managers import Manager, ManagerList
 # from resources.items import items
 # from resources.customers import customers
@@ -23,6 +23,7 @@ def main():
     # api.add_resource(customers, "/customers/<string:name>")
     # api.add_resource(purchases, "/purchases/<string:name>")
     # api.add_resource(stores, "/stores/<string:name>")
+    db = utils_db.init()
     db.init_app(app)
     app.run(host='0.0.0.0', debug=True)
 
