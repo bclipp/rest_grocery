@@ -1,16 +1,24 @@
-from flask import render_template
-import connexion
-
-
-@app.route('/')
-def home():
-    return render_template('home.html')
+from flask import Flask
+from flask_restful import Api
+from resources.managers import Manager, ManagerList
+# from resources.items import items
+# from resources.customers import customers
+# from resources.purchases import purchases
+# from resources.stores import stores
 
 
 def main():
-    app = connexion.App(__name__, specification_dir='./')
-    app.add_api('swagger.yml')
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app = Flask(__name__)
+    api = Api(app)
+    # by id or list them all
+    # for all
+    api.add_resource(Manager, "/managers/<string:name>")
+    api.add_resource(ManagerList, "/managers/")
+    # api.add_resource(items, "/items/<string:name>")
+    # api.add_resource(customers, "/customers/<string:name>")
+    # api.add_resource(purchases, "/purchases/<string:name>")
+    # api.add_resource(stores, "/stores/<string:name>")
+    app.run(host='0.0.0.0', debug=True)
 
 
 # If we're running in stand alone mode, run the application
