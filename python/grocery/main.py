@@ -12,7 +12,7 @@ def main():
     api = Api(app)
     # by id or list them all
     # for all
-    api.add_resource(Manager, "/managers/<string:name>")
+    api.add_resource(Manager, "/managers/<int:id>")
     api.add_resource(ManagerList, "/managers/")
     # api.add_resource(items, "/items/<string:name>")
     # api.add_resource(customers, "/customers/<string:name>")
