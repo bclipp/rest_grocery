@@ -3,17 +3,17 @@ import sqlite3
 
 
 class Manager(Resource):
-    TABLE_NAME = 'managers'
+    TABLE_NAME = 'items'
     parser = reqparse.RequestParser()
 
     def get(self, id):
         item = self.find_by_id(id)
         if item:
             return item
-        return {'message': 'Manager not found'}, 404
+        return {'message': 'Item not found'}, 404
 
     @classmethod
-    def find_by_id(cls, id):
+    def find_by_upc(cls, id):
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
         query = "SELECT * FROM {table} WHERE id=?".format(table=cls.TABLE_NAME)
@@ -21,50 +21,49 @@ class Manager(Resource):
         row = result.fetchone()
         connection.close()
         if row:
-            return {'manager': {'store': row[0],
-                                'id': row[1],
-                                'first_name': row[2],
-                                'last_name': row[3]}}
+            return {'item': {'id': row[0],
+                             'name': row[1],
+                             'store': row[2],
+                             'price': row[3],
+                             'upc_code': row[4]}}
 
-    def post(self, ssn):
-        if self.find_by_id(id):
-            return {'message': "An manager with id '{}' already exists.".format(id)}
+    def post(self, upc_code):
+        if self.find_by_upc(upc_code):
+            return {'message': "An item with id '{}' already exists.".format(id)}
         data = Manager.parser.parse_args()
-        manager = {'ssn': ssn,
+        manager = {'upc_code': upc_code,
                    'store': data['store'],
-                   'first_name': data['first_name'],
-                   'last_name': data['last_name']}
+                   'price': data['price']}
         try:
             Manager.insert(manager)
         except:
-            return {"message": "An error occurred inserting the manager."}
+            return {"message": "An error occurred inserting the item."}
         return manager
 
     @classmethod
     def insert(cls, manager):
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
-        query = "INSERT INTO {table} VALUES(?, ?,?,?)".format(table=cls.TABLE_NAME)
-        cursor.execute(query, (manager['ssn'],
+        query = "INSERT INTO {table} VALUES(?, ?,?)".format(table=cls.TABLE_NAME)
+        cursor.execute(query, (manager['upc_code'],
                                manager['store'],
-                               manager['first_name'],
-                               manager['last_name']))
+                               manager['price']))
         connection.commit()
         connection.close()
 
-    def delete(self, id):
+    def delete(self, name):
         connection = sqlite3.connect('database.db')
         cursor = connection.cursor()
         query = "DELETE FROM {table} WHERE name=?".format(table=self.TABLE_NAME)
-        cursor.execute(query, (id,))
+        cursor.execute(query, (name,))
         connection.commit()
         connection.close()
-        return {'message': 'Manager deleted'}
+        return {'message': 'Item deleted'}
 
-    def put(self, ssn):
+    def put(self, id):
         data = Manager.parser.parse_args()
         manager = self.find_by_name(id)
-        updated_manager = manager = {'ssn': ssn,
+        updated_manager = manager = {'id': id,
                                      'store': data['store'],
                                      'first_name': data['first_name'],
                                      'last_name': data['last_name']}
@@ -103,7 +102,6 @@ class ManagerList(Resource):
             managers.append({'store': row[0],
                              'id': row[1],
                              'first_name': row[2],
-                             'last_name': row[3],
-                             'ssn': row[4]})
+                             'last_name': row[3]})
         connection.close()
         return {'managers': managers}
