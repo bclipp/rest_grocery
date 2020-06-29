@@ -11,6 +11,12 @@ The goal of this project is to have a a group of rest endpoints that allow's a u
 
 ## URIs
 
+* managers
+    * GET
+    * POST
+    * PUT
+    * DELETE
+
 * items
     * GET
     * POST
