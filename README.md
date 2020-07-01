@@ -11,31 +11,31 @@ The goal of this project is to have a a group of rest endpoints that allow's a u
 
 ## URIs
 
-* managers
+* managers: id,store_id, first_name, last_name,ssn
     * GET
     * POST
     * PUT
     * DELETE
 
-* items
+* items: id, price, store_id, name
     * GET
     * POST
     * PUT
     * DELETE
     
-* customers
+* customers: id, first_name, last_name, address, phone number
     * GET
     * POST
     * PUT
     * DELETE
     
-*  purchases
+*  purchases: id, customers_id, items_id
     * GET
     * POST
     * PUT
     * DELETE
     
-* stores
+* stores: id, address, managager_id
     * GET
     * POST
     * PUT
