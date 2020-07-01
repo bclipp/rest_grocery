@@ -2,7 +2,8 @@ from flask import Flask
 from flask_restful import Api
 
 import utils.db as utils_db
-from resources.managers import Manager, ManagerList
+from resources.manager import ManagerRegister
+
 # from resources.items import items
 # from resources.customers import customers
 # from resources.purchases import purchases
@@ -15,16 +16,8 @@ def main():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['PROPAGATE_EXCEPTIONS'] = True
     api = Api(app)
-    # by id or list them all
-    # for all
-    api.add_resource(Manager, "/managers/<int:id>")
-    api.add_resource(ManagerList, "/managers/")
-    # api.add_resource(items, "/items/<string:name>")
-    # api.add_resource(customers, "/customers/<string:name>")
-    # api.add_resource(purchases, "/purchases/<string:name>")
-    # api.add_resource(stores, "/stores/<string:name>")
-    db = utils_db.init()
-    db.init_app(app)
+    api.add_resource(Item, '/item/<string:name>')
+    api.add_resource(ItemList, '/items')
     app.run(host='0.0.0.0', debug=True)
 
 

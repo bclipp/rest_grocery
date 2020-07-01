@@ -1,11 +1,14 @@
 import pytest  # type: ignore
 import requests
-from resources.managers import ManagerList, Manager
 
 
 def test_manager():
-    # localhost:5000/managers/<id>
-    pass
+    result = requests.post('http://localhost:5000/manager',
+                           data={
+                               "username": "bclipp",
+                               "password": "12345"
+                           })
+    print(result.content)
 
 
 def test_manager_list():
