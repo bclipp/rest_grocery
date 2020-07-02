@@ -4,11 +4,11 @@ from utils.db import db
 class StoreModel(db.Model):
     __tablename__ = "stores"
 
-    ll = db.Column(db.String(80))
-    address = db.Column(db.String(80))
-    managager_id = db.Column(db.Int(precision=2))
-    address = db.Column(db.String(80))
-    phone_number = db.Column(db.String(80))
+    ll = db.Column(db.String(80), nullable=False)
+    address = db.Column(db.String(80), nullable=False)
+    managager_id = db.Column(db.Int(precision=2), nullable=False)
+    address = db.Column(db.String(80), nullable=False)
+    phone_number = db.Column(db.String(80), nullable=False)
     id = db.Column(db.Integer, primary_key=True)
 
     def __init__(self, ssn, first_name, last_name, address, phone_number):

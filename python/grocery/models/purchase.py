@@ -5,14 +5,13 @@ class PurchaseModel(db.Model):
     __tablename__ = "purchases"
 
     id = db.Column(db.Integer, primary_key=True)
-    customer_id = db.Column(db.Integer)
-    items_id = db.Column(db.Integer)
-    store_id = db.Column(db.Integer)
-    date = db.Column(db.DateTime)
-    uccpid = db.Column(db.Integer)
-    final_cost = db.Column(db.Float(precision=2))
+    customer_id = db.Column(db.Integer, nullable=False)
+    items_id = db.Column(db.Integer, nullable=False)
+    store_id = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+    uccpid = db.Column(db.Integer, nullable=False)
+    final_cost = db.Column(db.Float(precision=2), nullable=False)
     store_id = db.Column(db.Integer, db.ForeignKey("stores.id"))
-
     store = db.relationship("StoreModel")
     item_id = db.Column(db.Integer, db.ForeignKey("items.id"))
     item = db.relationship("ItemModel")

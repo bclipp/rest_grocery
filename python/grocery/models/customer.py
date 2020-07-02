@@ -5,11 +5,11 @@ class CustomerModel(db.Model):
     __tablename__ = "customers"
 
     id = db.Column(db.Integer, primary_key=True)
-    ssn = db.Column(db.String(80))
-    first_name = db.Column(db.String(80))
-    last_name = db.Column(db.String(80))
-    address = db.Column(db.String(80))
-    phone_number = db.Column(db.String(80))
+    ssn = db.Column(db.String(80), nullable=False)
+    first_name = db.Column(db.String(80), nullable=False)
+    last_name = db.Column(db.String(80), nullable=False)
+    address = db.Column(db.String(80), nullable=False)
+    phone_number = db.Column(db.String(80), nullable=False)
 
     def __init__(self, ssn, first_name, last_name, address, phone_number):
         self.ssn = ssn
