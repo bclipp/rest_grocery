@@ -1,15 +1,15 @@
 from utils.db import db
 
 
-class CustomerModel(db.Model):
-    __tablename__ = "customers"
+class StoreModel(db.Model):
+    __tablename__ = "stores"
 
-    id = db.Column(db.Integer, primary_key=True)
-    ssn = db.Column(db.String(80))
-    first_name = db.Column(db.String(80))
-    last_name = db.Column(db.String(80))
+    ll = db.Column(db.String(80))
+    address = db.Column(db.String(80))
+    managager_id = db.Column(db.Int(precision=2))
     address = db.Column(db.String(80))
     phone_number = db.Column(db.String(80))
+    id = db.Column(db.Integer, primary_key=True)
 
     def __init__(self, ssn, first_name, last_name, address, phone_number):
         self.ssn = ssn

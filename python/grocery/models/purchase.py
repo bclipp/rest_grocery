@@ -12,6 +12,7 @@ class PurchaseModel(db.Model):
     uccpid = db.Column(db.Integer)
     final_cost = db.Column(db.Float(precision=2))
     store_id = db.Column(db.Integer, db.ForeignKey("stores.id"))
+
     store = db.relationship("StoreModel")
     item_id = db.Column(db.Integer, db.ForeignKey("items.id"))
     item = db.relationship("ItemModel")

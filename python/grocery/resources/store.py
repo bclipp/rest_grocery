@@ -32,7 +32,7 @@ class Customer(Resource):
     def post(self, ll):
         if CustomerModel.find_by_ll(ll):
             return (
-                {"message": "An store with ssn '{}' already exists.".format(ssn)},
+                {"message": "An store with latitude-longitude '{}' already exists.".format(ll)},
                 400,
             )
         data = Customer.parser.parse_args()
@@ -46,25 +46,25 @@ class Customer(Resource):
         return item.json(), 201
 
     def delete(self, ssn):
-        item = CustomerModel.find_by_name(ssn)
-        if item:
-            item.delete_from_db()
-            return {"message": "Item deleted."}
-        return {"message": "Item not found."}, 404
+        store = CustomerModel.find_by_name(ssn)
+        if store:
+            store.delete_from_db()
+            return {"message": "Store deleted."}
+        return {"message": "Store not found."}, 404
 
-    def put(self, ssn):
+    def put(self, ll):
         data = Customer.parser.parse_args()
-
-        customer = CustomerModel.find_by_name(ssn)
-
-        if customer:
-            customer.price = data["price"]
+        store = CustomerModel.find_by_name(ll)
+        if store:
+            store.price = data["ll"]
         else:
-            item = CustomerModel(ssn, **data)
+            store = CustomerModel(ll,
+                                  data["address"],
+                                  data["managager_id"])
 
-        customer.save_to_db()
+        store.save_to_db()
 
-        return item.json()
+        return store.json()
 
 
 class CustomerList(Resource):
