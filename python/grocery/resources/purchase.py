@@ -1,79 +1,96 @@
 from flask_restful import Resource, reqparse
-from models.item import ItemModel
+from models.purchase import PurchaseModel
 
 
 class Purchase(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
         "customer_id",
-        type=float,
+        type=int,
         required=True,
-        help="Every item needs a price."
+        help="Every purchase needs a customer_id."
     )
     parser.add_argument(
         "items_id",
         type=int,
         required=True,
-        help="Every item needs an isbn."
+        help="Every purchase needs an items_id."
     )
     parser.add_argument(
         "store_id",
         type=int,
         required=True,
-        help="Every item needs a store_id."
+        help="Every purchase needs a store_id."
     )
     parser.add_argument(
         "date",
+        type=str,
+        required=True,
+        help="Every purchase needs a date."
+    )
+    parser.add_argument(
+        "uccpid",
         type=int,
         required=True,
-        help="Every item needs a store_id."
+        help="Every purchase needs a uccpid."
     )
 
-    def get(self, isbn):
-        item = ItemModel.find_by_isbn(isbn)
+    parser.add_argument(
+        "final_cost",
+        type=int,
+        required=True,
+        help="Every purchase needs a final_cost."
+    )
+
+    def get(self, uccpid):
+        item = PurchaseModel.find_by_uccpid(uccpid)
         if item:
             return item.json()
-        return {"message": "Item not found"}, 404
+        return {"message": "Purchase not found"}, 404
 
-    def post(self, isbn):
-        if ItemModel.find_by_isbn(isbn):
+    def post(self, uccpid):
+        if PurchaseModel.find_by_uccpid(uccpid):
             return (
-                {"message": "An item with name '{}' already exists.".format(isbn)},
+                {"message": "A purchase with name '{}' already exists.".format(uccpid)},
                 400,
             )
-        data = Item.parser.parse_args()
-        item = ItemModel(isbn,
-                         data["name"],
-                         data["price"],
-                         data["store_id"])
+        data = Purchase.parser.parse_args()
+        purchase = PurchaseModel(uccpid,
+                                 data["customer_id"],
+                                 data["items_id"],
+                                 data["store_id"],
+                                 data["date"],
+                                 data["final_cost"])
         try:
-            item.save_to_db()
+            purchase.save_to_db()
         except:
             return {"message": "An error occurred inserting the item."}, 500
-        return item.json(), 201
+        return purchase.json(), 201
 
-    def delete(self, isbn):
-        item = ItemModel.find_by_name(isbn)
-        if item:
-            item.delete_from_db()
-            return {"message": "Item deleted."}
-        return {"message": "Item not found."}, 404
+    def delete(self, uccpid):
+        purchase = PurchaseModel.find_by_uccpid(uccpid)
+        if purchase:
+            purchase.delete_from_db()
+            return {"message": "Purchase deleted."}
+        return {"message": "Purchase not found."}, 404
 
-    def put(self, name):
-        data = Item.parser.parse_args()
-
-        item = ItemModel.find_by_name(name)
-
-        if item:
-            item.price = data["price"]
+    def put(self, uccpid):
+        data = Purchase.parser.parse_args()
+        purchase = PurchaseModel.find_by_uccpid(uccpid)
+        if purchase:
+            purchase.price = data["uccpid"]
         else:
-            item = ItemModel(name, **data)
+            purchase = PurchaseModel(uccpid,
+                                 data["customer_id"],
+                                 data["items_id"],
+                                 data["store_id"],
+                                 data["date"],
+                                 data["final_cost"])
+        purchase.save_to_db()
 
-        item.save_to_db()
-
-        return item.json()
+        return purchase.json()
 
 
 class PurchaseList(Resource):
     def get(self):
-        return {"purchases": list(map(lambda x: x.json(), ItemModel.query.all()))}
+        return {"purchases": list(map(lambda x: x.json(), PurchaseModel.query.all()))}

@@ -10,4 +10,6 @@ def add_resources(api):
     api.add_resource(CustomerList, "/customers")
     api.add_resource(Purchase, "/purchase/<string:id>")
     api.add_resource(PurchaseList, "/purchase")
+    api.add_resource(Purchase, "/store/<string:ll>")
+    api.add_resource(PurchaseList, "/stores")
     return api
