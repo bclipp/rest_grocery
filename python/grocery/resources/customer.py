@@ -59,28 +59,28 @@ class Customer(Resource):
             return {"message": "An error occurred inserting the item."}, 500
         return item.json(), 201
 
-    def delete(self, name):
-        item = CustomerModel.find_by_name(name)
+    def delete(self, ssn):
+        item = CustomerModel.find_by_name(ssn)
         if item:
             item.delete_from_db()
             return {"message": "Item deleted."}
         return {"message": "Item not found."}, 404
 
-    def put(self, name):
+    def put(self, ssn):
         data = Customer.parser.parse_args()
 
-        item = CustomerModel.find_by_name(name)
+        customer = CustomerModel.find_by_name(ssn)
 
-        if item:
-            item.price = data["price"]
+        if customer:
+            customer.price = data["price"]
         else:
-            item = CustomerModel(name, **data)
+            item = CustomerModel(ssn, **data)
 
-        item.save_to_db()
+        customer.save_to_db()
 
         return item.json()
 
 
 class CustomerList(Resource):
     def get(self):
-        return {"items": list(map(lambda x: x.json(), CustomerModel.query.all()))}
+        return {"customers": list(map(lambda x: x.json(), CustomerModel.query.all()))}
